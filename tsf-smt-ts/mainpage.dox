@@ -1,0 +1,25 @@
+/** @mainpage
+
+This suite exercises tsf-smt - deciding logical formulas with an SMT
+solver from the Test Agent it runs on - against Z3 and cvc5:
+
+- @ref smt-check - deciding a set of assertions: a satisfiable problem
+  comes back @c sat with a model whose values satisfy it, an
+  unsatisfiable one comes back @c unsat;
+- @ref smt-prove - proving a conjecture by refutation: a valid
+  entailment is @c unsat (proved), an invalid one is @c sat with a
+  counter-model that breaks it;
+- @ref smt-core - the unsat core of named assertions, and the
+  documented difference between what Z3 and cvc5 name in it;
+- @ref smt-errors - a malformed problem mapping to an error, and an
+  undecidable/timed-out problem coming back @c unknown without failing.
+
+There is no key and no network: the solver is a library linked into the
+agent's RPC server and called in-process (Z3's C API, cvc5's C++ API),
+so the problem never leaves the agent. Each group runs against both
+engines and skips one the agent does not have. The point of the suite
+is that tsf-smt builds the problem right, drives each engine over the
+RPC, and reads the verdict, the model and the unsat core back as
+structured data.
+
+*/

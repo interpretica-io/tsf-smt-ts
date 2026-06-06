@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<package version="1.0">
+    <description>SMT solvers</description>
+    <author mailto="maxim.menshikov@interpretica.io" />
+    <session track_conf="silent">
+        <prologue><script name="prologue"><objective>Prepare the SMT group.</objective></script></prologue>
+        <epilogue><script name="epilogue"><objective>Finalize the SMT group.</objective></script></epilogue>
+        <run><script name="check"><objective>Deciding assertions: sat with a model, and unsat.</objective></script></run>
+        <run><script name="prove"><objective>Proving a conjecture by refutation.</objective></script></run>
+        <run><script name="core"><objective>Unsat cores of named assertions.</objective></script></run>
+        <run><script name="errors"><objective>Parse errors and the unknown verdict.</objective></script></run>
+    </session>
+</package>

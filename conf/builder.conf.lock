@@ -1,0 +1,7 @@
+# External repositories pinned by the Test Environment Builder.
+# Commit this file: it makes the build reproducible.
+# Run dispatcher.sh --update-external to move the records on.
+#
+# Empty of records on purpose: tsf-smt is not published yet, so there
+# is no commit to pin. The first build resolves tsf_smt from the ref in
+# conf/external.yml and writes its line here.

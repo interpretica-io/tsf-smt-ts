@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<package version="1.0">
+    <description>tsf-smt demonstration suite</description>
+
+    <!-- @page smt-ts SMT Solver Suite
+          @objective Exercise tsf-smt against Z3 and cvc5 on the agent
+                     the suite runs on.
+
+          @par Test Groups:
+          - @ref smt-check - Deciding assertions: sat with a model, unsat
+          - @ref smt-prove - Proving a conjecture by refutation
+          - @ref smt-core - Unsat cores of named assertions
+          - @ref smt-errors - Parse errors and the unknown verdict
+
+          @par Notes:
+          - The solver runs on the agent, in its RPC server, over the
+            solver's own library API (Z3's C API, cvc5's C++ API). No
+            key and no network are needed.
+          - Each group runs against both engines. A group skips an
+            engine the agent does not have, rather than failing.
+          - On the localhost configuration the agent is the build
+            container, which must carry libz3 and libcvc5. Name a host
+            in conf/rcf.conf and the same tests run against that host.
+    -->
+
+    <author mailto="maxim.menshikov@interpretica.io" />
+
+    <session track_conf="silent">
+        <!-- @page smt-ts-prologue Test Suite Prologue
+              @objective Prepare the test environment.
+
+              @par Scenario:
+              -# Nothing to do: each test opens its own session to the agent.
+        -->
+        <prologue>
+            <script name="prologue">
+                <objective>
+                    Prepare the test environment.
+                    @md
+                </objective>
+            </script>
+        </prologue>
+
+        <!-- @page smt-ts-epilogue Test Suite Epilogue
+              @objective Finalize the test environment.
+        -->
+        <epilogue>
+            <script name="epilogue">
+                <objective>
+                    Finalize the test environment.
+                    @md
+                </objective>
+            </script>
+        </epilogue>
+
+        <run>
+            <package name="smt" />
+        </run>
+    </session>
+</package>

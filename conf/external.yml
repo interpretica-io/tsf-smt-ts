@@ -1,0 +1,8 @@
+repositories:
+  - name: tsf_smt
+    url: https://github.com/interpretica-io/tsf-smt.git
+    ref: main
+    libs:
+      - ta_smt
+      - rpcs_smt
+      - tapi_smt
