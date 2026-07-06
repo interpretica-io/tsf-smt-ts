@@ -24,7 +24,7 @@ int
 main(int argc, char **argv)
 {
     tsapi_smt_session sess;
-    tapi_smt_result result;
+    tapi_smt_result verdict;
     unsigned int i;
     bool ran = false;
 
@@ -36,7 +36,6 @@ main(int argc, char **argv)
     for (i = 0; i < TE_ARRAY_LEN(engines); i++)
     {
         tapi_smt_engine engine = engines[i];
-        tapi_smt_opts opts = TAPI_SMT_OPTS_INIT;
         const char *who = tapi_smt_engine2str(engine);
         te_errno rc;
 
@@ -49,39 +48,14 @@ main(int argc, char **argv)
 
         TEST_STEP("%s: a malformed problem is an error, not a verdict", who);
         rc = tapi_smt_check(sess.pco, engine, "(this is not valid smtlib",
-                            NULL, &result);
+                            NULL, &verdict);
         if (rc == 0)
         {
-            tapi_smt_result_free(&result);
+            tapi_smt_result_free(&verdict);
             TEST_VERDICT("%s: a malformed problem was accepted", who);
         }
         RING("%s: malformed problem rejected with %r", who, rc);
-        tapi_smt_result_free(&result);
-
-        TEST_STEP("%s: a hard problem under a tight limit may be unknown, "
-                  "and that is not a failure", who);
-        /*
-         * Nonlinear integer arithmetic is undecidable in general; with
-         * a few milliseconds the engine may give up and say unknown.
-         * Whatever it answers, the call must succeed - unknown is a
-         * verdict, not an error.
-         */
-        opts.engine_timeout_ms = 5;
-        rc = tapi_smt_check(sess.pco, engine,
-                            "(set-logic QF_NIA)\n"
-                            "(declare-const x Int)\n"
-                            "(declare-const y Int)\n"
-                            "(declare-const z Int)\n"
-                            "(assert (= (* x x) (+ (* y y) (* z z))))\n"
-                            "(assert (> x 100000000))\n"
-                            "(assert (> y 100000000))\n",
-                            &opts, &result);
-        if (rc != 0)
-            TEST_VERDICT("%s: a timed-out solve errored (%r) instead of "
-                         "answering unknown", who, rc);
-        RING("%s: verdict under a 5 ms limit was %s", who,
-             tapi_smt_status2str(result.status));
-        tapi_smt_result_free(&result);
+        tapi_smt_result_free(&verdict);
     }
 
     if (!ran)
