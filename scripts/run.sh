@@ -44,7 +44,7 @@ if [ "$is_docker" == "1" ] ; then
     # happily as a URL - but only if that path exists inside the
     # container too. Without this the advice in external.yml is true
     # outside Docker and quietly false within it.
-    export TE_DOCKER_MOUNT_PATHS="${TS_TOPDIR}:${TE_BASE}:${TS_TOPDIR}/..:/home/user/src/midair-platform"
+    export TE_DOCKER_MOUNT_PATHS="${TS_TOPDIR}:${TE_BASE}:${TS_TOPDIR}/.."
     export TE_DOCKER_WORK_DIR="$(pwd)"
     # git refuses to touch a repository whose directory belongs to
     # another user, and everything under a bind mount does: the
